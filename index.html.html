@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D'Life – The Comeback</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif;}
+body{background:black;color:white;overflow:hidden;text-align:center;}
+
+/* Corner Logo */
+.cornerLogo{position:fixed;top:20px;left:20px;width:90px;opacity:0.85;z-index:1000;transition: transform 0.6s ease;}
+.cornerLogo:hover{transform: scale(1.1);}
+
+/* Intro Letters */
+#danceIntro{
+    position:absolute;top:0;left:0;width:100%;height:100vh;display:flex;justify-content:center;align-items:center;gap:15px;
+    background:black; z-index:1000;
+}
+.letter{
+    font-size:80px;font-weight:900;color:#25D366;
+    text-shadow:0 0 15px #25D366,0 0 30px #25D366,0 0 60px #25D366;
+    display:inline-block;
+    transform: translateY(0) scale(1);
+    transition: transform 0.3s ease;
+}
+
+/* Scenes */
+.scene{position:absolute;width:100%;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px;opacity:0;transition: all 1.2s ease;}
+.active{opacity:1;}
+h1{font-size:42px;font-weight:900;margin-bottom:20px;text-transform: uppercase;letter-spacing:2px;}
+p{font-size:18px;opacity:.85;max-width:700px;line-height:1.5;position:relative; z-index:10;}
+.mediaWrapper{position: relative; display:flex; flex-direction:column; align-items:center; z-index:1;}
+.media{width:90%;max-width:700px;margin-bottom:25px;border-radius:15px;opacity:0;transform: scale(0.95);transition: all 1.5s ease;}
+.media.activeMedia{opacity:1;transform: scale(1);}
+
+/* Scene 5 logo */
+.revealLogo{width:220px;margin-bottom:40px;opacity:0;transform: translateY(-50px) scale(0.8);transition: all 1s ease; z-index:10;}
+.revealLogo.activeLogo{opacity:1;transform: translateY(0) scale(1);}
+
+.countdown{font-size:28px;letter-spacing:3px;margin:20px 0 30px 0;font-weight:700;}
+button{margin-top:20px;padding:16px 40px;font-weight:800;border:none;cursor:pointer;background:#25D366;color:white;font-size:18px;animation:pulse 2s infinite;border-radius:10px;transition: transform 0.3s ease, box-shadow 0.3s ease;}
+button:hover{transform: scale(1.05);box-shadow: 0 0 15px #25D366;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6)}70%{box-shadow:0 0 0 25px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+
+/* Instagram info */
+.instagramInfo{margin-top:15px;font-size:13px;color:#25D366;text-shadow:0 0 10px #25D366;opacity:0.9;}
+.instagramInfo a{color:#25D366;text-decoration:none;font-weight:700;}
+
+/* Responsive */
+@media(max-width:600px){h1{font-size:32px;}p{font-size:16px;}.media{max-width:90%;}.letter{font-size:50px;}}
+</style>
+</head>
+<body>
+
+<img src="assets/logo.png" class="cornerLogo">
+
+<!-- Intro -->
+<div id="danceIntro"></div>
+
+<!-- Audio: Online Links -->
+<audio id="music" src="https://assets.mixkit.co/music/preview/mixkit-cinematic-music-intro-963.mp3" loop></audio>
+<audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-pop-2430.mp3"></audio>
+<audio id="whoosh" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-woosh-transition-1318.mp3"></audio>
+<audio id="riser" src="https://assets.mixkit.co/sfx/preview/mixkit-cinematic-riser-1273.mp3"></audio>
+<audio id="boom" src="https://assets.mixkit.co/sfx/preview/mixkit-impact-woosh-1486.mp3"></audio>
+<audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3"></audio>
+
+<!-- Scenes -->
+<div id="scene1" class="scene">
+    <h1>Do You Remember?</h1>
+    <p>The music. The energy. The madness.</p>
+</div>
+<div id="scene2" class="scene">
+    <div class="mediaWrapper">
+        <img src="assets/image1.jpeg" class="media">
+        <img src="assets/image2.jpeg" class="media">
+    </div>
+    <p>This was us.</p>
+</div>
+<div id="scene3" class="scene">
+    <h1>Then Everything Paused.</h1>
+    <p>Lights off. Silence. Doors closed.</p>
+</div>
+<div id="scene4" class="scene">
+    <h1>But We Never Quit.</h1>
+    <p>We rebuilt. We evolved. We prepared.</p>
+</div>
+<div id="scene5" class="scene">
+    <img src="assets/logo.png" class="revealLogo">
+    <h1>WE. ARE. BACK.</h1>
+</div>
+<div id="scene6" class="scene">
+    <h1>Grand Reopening – 15th March</h1>
+    <div class="countdown" id="countdown"></div>
+    <p>This invite is exclusively for our special guests.</p>
+    <button onclick="joinNow()">I'M IN</button>
+    <div class="instagramInfo">
+        More info → <a href="https://www.instagram.com/dlife_thedancestudio" target="_blank">@dlife_thedancestudio</a>
+    </div>
+</div>
+
+<script>
+const danceIntro = document.getElementById("danceIntro");
+const music = document.getElementById("music");
+const pop = document.getElementById("popSound");
+const whoosh = document.getElementById("whoosh");
+const riser = document.getElementById("riser");
+const boom = document.getElementById("boom");
+const click = document.getElementById("clickSound");
+
+const totalScenes = 6;
+let currentScene = 1;
+
+// Intro letters
+const letters = "D'Life".split("");
+letters.forEach((l,i)=>{
+    const span = document.createElement("span");
+    span.classList.add("letter");
+    span.innerText = l;
+    span.style.transitionDelay = `${i*0.2}s`;
+    danceIntro.appendChild(span);
+});
+
+// Animate intro letters
+function startIntro(){
+    music.play();
+    const letterEls = document.querySelectorAll(".letter");
+    letterEls.forEach((el,i)=>{
+        setTimeout(()=>{
+            el.style.transform='translateY(-30px) scale(1.2)';
+            el.style.color="#FFFFFF";
+            pop.currentTime=0; pop.play();
+        }, i*200);
+        setTimeout(()=>{ el.style.transform='translateY(0) scale(1)'; }, i*200 + 300);
+    });
+
+    setTimeout(()=>{
+        danceIntro.style.display="none";
+        document.getElementById("scene1").classList.add("active");
+        startScenesTimeline();
+    }, 3500);
+}
+
+// Scene transitions
+function nextScene(){
+    const prev = document.getElementById("scene"+currentScene);
+    prev.classList.remove("active");
+    currentScene++;
+    if(currentScene>totalScenes) return;
+    const next = document.getElementById("scene"+currentScene);
+    next.classList.add("active");
+
+    const mediaItems = next.querySelectorAll(".media");
+    mediaItems.forEach((el,i)=>{
+        setTimeout(()=>{ el.classList.add("activeMedia"); }, i*1000);
+    });
+
+    // Scene-specific SFX
+    if(currentScene===2) whoosh.play();
+    if(currentScene===3) riser.play();
+    if(currentScene===5) boom.play();
+
+    // Scene5 logo
+    if(currentScene===5){
+        const logo = next.querySelector(".revealLogo");
+        setTimeout(()=>{ logo.classList.add("activeLogo"); }, 500);
+    }
+}
+
+// Timeline
+function startScenesTimeline(){
+    setTimeout(nextScene, 5000);
+    setTimeout(nextScene, 12000);
+    setTimeout(nextScene, 20000);
+    setTimeout(nextScene, 28000);
+    setTimeout(nextScene, 36000);
+}
+
+// Countdown
+const countdownEl = document.getElementById("countdown");
+const eventDate = new Date("March 15, 2026 00:00:00").getTime();
+setInterval(()=>{
+    const now = new Date().getTime();
+    const gap = eventDate - now;
+    if(gap<0){countdownEl.innerHTML = "Event Started!"; return;}
+    const days = Math.floor(gap / (1000*60*60*24));
+    const hours = Math.floor((gap % (1000*60*60*24))/(1000*60*60));
+    const mins = Math.floor((gap % (1000*60*60))/(1000*60));
+    const secs = Math.floor((gap % (1000*60))/1000);
+    countdownEl.innerHTML = `${days}D : ${hours}H : ${mins}M : ${secs}S`;
+},1000);
+
+// Join button
+function joinNow(){ click.play(); setTimeout(()=>{ window.location.href="https://wa.me/919156379706?text=I%20am%20in%20for%20DLife%20Grand%20Reopening%20on%2015th%20March!"; },400); }
+
+// Start intro
+document.body.addEventListener("click", startIntro, {once:true});
+</script>
+</body>
+</html>
